@@ -16,3 +16,7 @@ body {
   max-width: 420px;
   margin: 1em;
 }
+
+.temp {
+  font-size: 3.5em;
+}
