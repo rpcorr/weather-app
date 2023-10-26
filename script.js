@@ -74,3 +74,14 @@ const whereAmI = async function () {
     console.error(`${err.message} 💥`);
   }
 })();
+
+const windowSize = () => {
+  if (window.innerWidth < 400) {
+    document.querySelector('.search-bar').placeholder = 'Search city';
+  } else {
+    document.querySelector('.search-bar').placeholder = 'Search for a city';
+  }
+};
+
+window.addEventListener('load', windowSize);
+window.addEventListener('resize', windowSize);
