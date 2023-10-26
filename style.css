@@ -12,7 +12,8 @@ body {
 }
 
 .card {
-  background: #eaeaea;
+  background: #000000d0;
+  color: white;
   padding: 2em;
   border-radius: 30px;
   width: 100%;
