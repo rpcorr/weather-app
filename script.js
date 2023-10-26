@@ -36,4 +36,41 @@ document.querySelector('.search-bar').addEventListener('keyup', function (e) {
   if (e.key == 'Enter') weather.search();
 });
 
-weather.fetchWeather('Toronto');
+// Get city base on Geolocation
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
+
+const whereAmI = async function () {
+  try {
+    // Geolocation
+    const pos = await getPosition();
+    const { latitude: lat, longitude: lng } = pos.coords;
+
+    // Reverse Geolocation
+    const resGeo = await fetch(
+      `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=en`
+    );
+    const dataGeo = await resGeo.json();
+
+    if (!resGeo.ok) throw new Error('Problem getting location data');
+
+    return dataGeo.city;
+  } catch (err) {
+    renderError(`💥 ${err.message}`);
+
+    // Reject promise returned fron async function
+    throw err;
+  }
+};
+
+(async function () {
+  try {
+    const city = await whereAmI();
+    weather.fetchWeather(city);
+  } catch (err) {
+    console.error(`${err.message} 💥`);
+  }
+})();
